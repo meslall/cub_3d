@@ -1,27 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   open_file.c                                        :+:      :+:    :+:   */
+/*   ft_putstr_fd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hbouhsis <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/21 11:34:01 by hbouhsis          #+#    #+#             */
-/*   Updated: 2022/10/21 11:34:04 by hbouhsis         ###   ########.fr       */
+/*   Created: 2022/11/16 21:32:22 by hbouhsis          #+#    #+#             */
+/*   Updated: 2022/11/16 21:32:24 by hbouhsis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D.h"
 
-int	open_file(char *MapPath)
+void	ft_putchar_fd(char c, int fd)
 {
-	int	fd;
+	write(fd, &c, 1);
+}
 
-	if (open(MapPath, O_DIRECTORY) > 0)
-		error_message("map should be a file not a directory.");
-	if (ft_strncmp(ft_strchr(MapPath, '.'), ".cub", 4))
-		error_message("map should have .cub extension");
-	fd = open(MapPath, O_RDONLY);
-	if (fd == -1)
-		error_message(strerror(errno));
-	return (fd);
+void	ft_putstr_fd(char *s, int fd)
+{
+	int	i;
+
+	i = 0;
+	if (!s)
+		return ;
+	while (s[i])
+	{
+		ft_putchar_fd(s[i], fd);
+		i++;
+	}
 }

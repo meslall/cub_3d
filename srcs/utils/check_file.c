@@ -1,28 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   check_file.c                                        :+:      :+:    :+:  */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hbouhsis <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/19 11:00:30 by hbouhsis          #+#    #+#             */
-/*   Updated: 2022/10/19 11:00:32 by hbouhsis         ###   ########.fr       */
+/*   Created: 2022/10/21 11:34:01 by hbouhsis          #+#    #+#             */
+/*   Updated: 2022/10/21 11:34:04 by hbouhsis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D.h"
 
-int	main(int ac, char **av)
+int	open_map_file(char *path)
 {
-	t_data	*data;
+	int	fd;
 
-	if (ac == 2)
-	{
-		constructor(&data);
-		parser(av[1], &data);
-		init_game_loop(&data);
-		free_array(data->mapdisplay->map);
-	}
-	else
-		error_message("Usage : ./cub3D < .cub map file >");
+	if (open(path, O_DIRECTORY) > 0)
+		error_message("map should be a file not a directory.");
+	fd = open(path, O_RDONLY);
+	if (fd == -1)
+		error_message(strerror(errno));
+	return (fd);
+}
+
+int	check_file(char *MapPath)
+{
+	char	*ext;
+
+	ext = ft_strchr(MapPath, '.');
+	if (!ext || ft_strncmp(ext, ".cub", 4))
+		error_message("map should have .cub extension");
+	return (open_map_file(MapPath));
 }
